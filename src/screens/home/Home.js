@@ -85,7 +85,7 @@ const Home = (props) => {
                 setIsLoading(false);
             })
 
-        // Get RELEASED movies
+        // Fetching RELEASED movies
 
         let dataReleased = null;
 
@@ -106,7 +106,7 @@ const Home = (props) => {
                 setIsLoading(false);
             })
 
-        // Get genres filters options
+        // Fetching genres filters options
         let dataGenres = null;
 
         fetch(props.baseUrl + "genres", {
@@ -122,7 +122,7 @@ const Home = (props) => {
                 setGenresList(response.genres);
             })
 
-        // Get artists filters  options
+        // Fetching artists filters  options
         let dataArtists = null;
 
         fetch(props.baseUrl + "artists", {
@@ -163,6 +163,7 @@ const Home = (props) => {
         setReleaseDateEnd(event.target.value);
     }
 
+    // Find moives filter handler
     const movieClickHandler = (movieId) => {
         props.history.push('/movie/' + movieId);
     }
@@ -206,17 +207,13 @@ const Home = (props) => {
 
     }
 
-
-
     const { classes } = props;
 
     return (
         <div>
-            {!isLoading ? <CircularProgress color="inherit" /> :
+            {isLoading ? <div className="spinner-wrapper"> <CircularProgress color="inherit" /></div> :
                 <div>
-
                     <Header baseUrl={props.baseUrl} />
-
                     <div className={classes.upcomingMoviesHeading}>
                         <span>Upcoming Movies</span>
                     </div>
@@ -231,7 +228,7 @@ const Home = (props) => {
                     <div className="flex-container">
                         <div className="left">
                             {
-                                !isReleaseMoviesLoading ? <CircularProgress color="inherit" /> :
+                                isReleaseMoviesLoading ? <div className="spinner"> <CircularProgress color="inherit" /></div> :
                                     <GridList cellHeight={350} cols={4} className={classes.gridListMain}>
                                         {releasedMovies.map(movie => (
                                             <GridListTile onClick={() => movieClickHandler(movie.id)} className="released-movie-grid-item" key={"grid" + movie.id}>
